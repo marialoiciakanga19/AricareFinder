@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AfriCareFinder — Votre pont vers la santé</title>
+<meta name="description" content="AfriCareFinder accompagne les patients africains vers les meilleurs hôpitaux d'Inde. Assistance médicale complète, de l'évaluation au retour au pays.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+<style>
+:root{
+  --navy:#0A2647;
+  --blue:#1467B8;
+  --sky:#4FA8E0;
+  --sky-light:#DDEEFB;
+  --gray:#5B6B7C;
+  --gray-light:#F5F6FA;
+  --gray-line:#E1E7EE;
+  --white:#fff;
+  --shadow: 0 20px 45px -15px rgba(10,38,71,0.25);
+  --radius: 18px;
+  --font-d:'Sora',sans-serif;
+  --font-b:'Inter',sans-serif;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b); color:var(--navy); background:var(--white); line-height:1.6; overflow-x:hidden;}
+img{max-width:100%; display:block;}
+a{text-decoration:none; color:inherit;}
+ul{list-style:none;}
+h1,h2,h3,h4{font-family:var(--font-d); color:var(--navy); line-height:1.15;}
+.container{max-width:1180px; margin:0 auto; padding:0 24px;}
+section{position:relative;}
+.eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:0.78rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--blue); margin-bottom:14px;}
+.eyebrow::before{content:""; width:26px; height:2px; background:var(--sky); display:inline-block;}
+.eyebrow i{font-size:0.95rem;}
+.btn{display:inline-flex; align-items:center; gap:10px; padding:15px 30px; border-radius:100px; font-weight:600; font-size:0.98rem; transition:all .35s cubic-bezier(.4,0,.2,1); cursor:pointer; border:none;}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--navy)); color:#fff; box-shadow:0 12px 26px -8px rgba(20,103,184,0.55);}
+.btn-primary:hover{transform:translateY(-3px); box-shadow:0 18px 32px -8px rgba(20,103,184,0.65);}
+.btn-outline{background:transparent; color:var(--navy); border:1.5px solid var(--gray-line);}
+.btn-outline:hover{border-color:var(--blue); color:var(--blue); transform:translateY(-3px);}
+.btn i{font-size:0.95rem;}
+
+/* smaller nav contact button */
+.nav-cta .btn-primary{padding:10px 20px; font-size:0.85rem; box-shadow:0 8px 18px -8px rgba(20,103,184,0.55);}
+.nav-cta .btn-primary i{font-size:0.85rem;}
+
+/* language switch */
+.lang-switch{display:flex; align-items:center; background:var(--gray-light); border-radius:100px; padding:3px; gap:2px; border:1px solid var(--gray-line);}
+.lang-switch button{border:none; background:transparent; padding:6px 12px; border-radius:100px; font-family:var(--font-b); font-weight:700; font-size:0.75rem; letter-spacing:0.03em; color:var(--gray); cursor:pointer; transition:all .25s ease;}
+.lang-switch button.active{background:var(--navy); color:#fff;}
+
+/* reveal */
+[data-reveal]{opacity:0; transform:translateY(42px); transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1);}
+[data-reveal].in-view{opacity:1; transform:translateY(0);}
+[data-reveal="left"]{transform:translateX(-50px);}
+[data-reveal="left"].in-view{transform:translateX(0);}
+[data-reveal="right"]{transform:translateX(50px);}
+[data-reveal="right"].in-view{transform:translateX(0);}
+[data-reveal="scale"]{transform:scale(0.92);}
+[data-reveal="scale"].in-view{transform:scale(1);}
+@media (prefers-reduced-motion: reduce){
+  [data-reveal]{opacity:1 !important; transform:none !important; transition:none !important;}
+  html{scroll-behavior:auto;}
+}
+
+/* HEADER */
+header{position:fixed; top:0; left:0; right:0; z-index:1000; padding:20px 0; transition:all .4s ease; background:rgba(255,255,255,0);}
+header.scrolled{background:rgba(255,255,255,0.92); backdrop-filter:blur(14px); box-shadow:0 8px 30px -12px rgba(10,38,71,0.18); padding:12px 0;}
+.nav{display:flex; align-items:center; justify-content:space-between;}
+.logo-wrap{display:flex; align-items:center; gap:10px; font-family:var(--font-d); font-weight:700; font-size:1.15rem; color:var(--navy);}
+.logo-wrap img{height:42px; width:auto;}
+.nav-links{display:flex; gap:34px; align-items:center;}
+.nav-links a{font-weight:600; font-size:0.94rem; color:var(--navy); position:relative; padding:4px 0;}
+.nav-links a::after{content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background:var(--blue); transition:width .3s ease;}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{display:flex; gap:14px; align-items:center;}
+.burger{display:none; flex-direction:column; gap:5px; cursor:pointer; z-index:1100;}
+.burger span{width:26px; height:2.5px; background:var(--navy); border-radius:2px; transition:all .3s ease;}
+
+/* HERO */
+.hero{min-height:100vh; display:flex; align-items:center; position:relative; padding:150px 0 100px; background:linear-gradient(180deg,var(--gray-light) 0%, var(--white) 65%); overflow:hidden;}
+.hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:60px; align-items:center;}
+.hero h1{font-size:clamp(2.2rem,4.2vw,3.6rem); font-weight:800; margin-bottom:22px; letter-spacing:-0.02em;}
+.hero h1 span{color:var(--blue); position:relative; white-space:nowrap;}
+.hero p.lead{font-size:1.12rem; color:var(--gray); max-width:520px; margin-bottom:34px;}
+.hero-cta{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:44px;}
+.hero-stats{display:flex; gap:36px; flex-wrap:wrap;}
+.hero-stats div strong{display:block; font-family:var(--font-d); font-size:1.7rem; color:var(--navy); font-weight:800;}
+.hero-stats div span{font-size:0.85rem; color:var(--gray);}
+.hero-visual{position:relative;}
+.hero-visual .frame{border-radius:28px; overflow:hidden; box-shadow:var(--shadow); position:relative; aspect-ratio:4/5;}
+.hero-visual .frame img{width:100%; height:100%; object-fit:cover;}
+.floating-card{position:absolute; background:#fff; border-radius:16px; padding:16px 20px; box-shadow:var(--shadow); display:flex; align-items:center; gap:12px; font-weight:700; font-size:0.9rem; animation:float 5s ease-in-out infinite;}
+.floating-card.card1{top:8%; left:-8%;}
+.floating-card.card2{bottom:10%; right:-10%; animation-delay:1.4s;}
+.floating-card .ic{font-size:1.25rem; color:var(--blue);}
+@keyframes float{0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);}}
+
+/* SECTION HEADER GENERIC */
+.sec-head{max-width:640px; margin-bottom:56px;}
+.sec-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+.sec-head h2{font-size:clamp(1.8rem,3vw,2.5rem); font-weight:800; letter-spacing:-0.01em;}
+.sec-head p{color:var(--gray); margin-top:14px; font-size:1.03rem;}
+
+/* ABOUT */
+.about{padding:120px 0;}
+.about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center;}
+.about-visual{position:relative;}
+.about-visual .img-main{border-radius:24px; overflow:hidden; box-shadow:var(--shadow); aspect-ratio:1/1.05; position:relative; background:var(--gray-light);}
+.about-visual .img-main img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0; opacity:1; transition:opacity .5s ease;}
+.about-badge{position:absolute; bottom:-26px; left:-26px; background:var(--navy); color:#fff; padding:22px 26px; border-radius:18px; box-shadow:var(--shadow); z-index:2;}
+.about-badge strong{display:block; font-family:var(--font-d); font-size:2rem; font-weight:800; color:var(--sky-light);}
+.about-badge span{font-size:0.82rem; opacity:0.85;}
+.slider-dots{position:absolute; bottom:16px; right:16px; display:flex; gap:6px; z-index:2;}
+.slider-dots span{width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.55); transition:all .3s ease;}
+.slider-dots span.active{background:#fff; width:20px; border-radius:5px;}
+.about-text p{color:var(--gray); margin-bottom:18px; font-size:1.03rem;}
+.proof-list{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:30px;}
+.proof-item{display:flex; gap:12px; align-items:flex-start; background:var(--gray-light); border-radius:14px; padding:16px 18px;}
+.proof-item .ic{font-size:1.2rem; color:var(--blue); margin-top:2px;}
+.proof-item strong{display:block; font-size:0.95rem;}
+.proof-item span{font-size:0.83rem; color:var(--gray);}
+
+/* WHY */
+.why{padding:100px 0; background:var(--gray-light);}
+.why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+.why-card{background:#fff; border-radius:20px; padding:34px 28px; box-shadow:0 10px 30px -18px rgba(10,38,71,0.18); transition:transform .4s ease, box-shadow .4s ease; border:1px solid var(--gray-line);}
+.why-card:hover{transform:translateY(-8px); box-shadow:var(--shadow);}
+.why-card .ic{font-size:1.7rem; margin-bottom:16px; display:inline-flex; color:var(--blue); width:52px; height:52px; align-items:center; justify-content:center; background:var(--sky-light); border-radius:14px;}
+.why-card h3{font-size:1.12rem; margin-bottom:10px; font-weight:700;}
+.why-card p{color:var(--gray); font-size:0.93rem;}
+
+/* SERVICES */
+.services{padding:120px 0;}
+.services-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+.service-card{position:relative; border-radius:20px; padding:32px 26px; background:var(--white); border:1px solid var(--gray-line); overflow:hidden; transition:all .4s ease;}
+.service-card:hover{border-color:transparent; box-shadow:var(--shadow); transform:translateY(-6px);}
+.service-card .num{font-family:var(--font-d); font-weight:800; font-size:0.85rem; color:var(--sky); letter-spacing:0.05em;}
+.service-card .ic{font-size:1.5rem; margin:14px 0 12px; color:var(--blue);}
+.service-card h3{font-size:1.08rem; margin-bottom:10px;}
+.service-card p{color:var(--gray); font-size:0.92rem;}
+
+/* HOW IT WORKS - timeline */
+.how{padding:120px 0; background:linear-gradient(180deg,var(--navy),#0d3562); color:#fff; position:relative; overflow:hidden;}
+.how .sec-head h2, .how .sec-head p{color:#fff;}
+.how .sec-head p{color:#c9d9ea;}
+.timeline{position:relative; margin-top:60px;}
+.timeline-track{position:absolute; top:26px; left:0; right:0; height:2px; background:rgba(255,255,255,0.18);}
+.timeline-track .fill{position:absolute; top:0; left:0; height:100%; width:0%; background:var(--sky); transition:width 1.4s ease;}
+.timeline-steps{display:grid; grid-template-columns:repeat(5,1fr); gap:20px; position:relative;}
+.tl-step{text-align:left;}
+.tl-num{width:52px; height:52px; border-radius:50%; background:var(--sky); color:var(--navy); font-family:var(--font-d); font-weight:800; display:flex; align-items:center; justify-content:center; font-size:1.15rem; margin-bottom:20px; box-shadow:0 0 0 6px rgba(79,168,224,0.18);}
+.tl-step h4{color:#fff; font-size:1rem; margin-bottom:8px;}
+.tl-step p{color:#b9cbe0; font-size:0.87rem;}
+
+/* DESTINATIONS */
+.destinations{padding:120px 0;}
+.dest-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;}
+.dest-visual{position:relative;}
+.dest-photos{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.dest-photo{position:relative; border-radius:18px; overflow:hidden; aspect-ratio:1/1; box-shadow:var(--shadow); background:var(--gray-light);}
+.dest-photo img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+.dest-photo:hover img{transform:scale(1.06);}
+.dest-photo .cap{position:absolute; left:0; right:0; bottom:0; background:linear-gradient(0deg, rgba(10,38,71,0.85), transparent); color:#fff; padding:14px 14px 10px; font-weight:700; font-size:0.85rem; display:flex; align-items:center; gap:6px;}
+.dest-photo .cap i{color:var(--sky); font-size:0.75rem;}
+.dest-cities{display:flex; gap:14px; flex-wrap:wrap; margin-top:26px;}
+.dest-city{background:var(--gray-light); border-radius:100px; padding:9px 18px; font-size:0.86rem; font-weight:600; display:flex; gap:8px; align-items:center;}
+.dest-city i{color:var(--blue);}
+
+/* HOSPITALS */
+.hospitals{padding:100px 0; background:var(--gray-light);}
+.hosp-banner{border-radius:24px; overflow:hidden; box-shadow:var(--shadow); margin-bottom:50px; position:relative; height:340px;}
+.hosp-banner img{width:100%; height:100%; object-fit:cover;}
+.hosp-banner .cap{position:absolute; left:0; right:0; bottom:0; background:linear-gradient(0deg, rgba(10,38,71,0.85), transparent); color:#fff; padding:26px 30px 20px; font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:10px;}
+.hosp-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+.hosp-card{background:#fff; border-radius:16px; padding:26px 22px; text-align:left; border:1px solid var(--gray-line); transition:all .35s ease;}
+.hosp-card:hover{transform:translateY(-6px); box-shadow:var(--shadow); border-color:transparent;}
+.hosp-card .ic{font-size:1.5rem; margin-bottom:12px; color:var(--blue); width:46px; height:46px; display:flex; align-items:center; justify-content:center; background:var(--sky-light); border-radius:12px;}
+.hosp-card h4{font-size:1rem; margin-bottom:10px;}
+.hosp-card .hosp-line{font-size:0.8rem; color:var(--gray); margin-bottom:6px; display:flex; gap:6px; align-items:flex-start;}
+.hosp-card .hosp-line b{color:var(--navy); font-weight:700; flex-shrink:0;}
+.hosp-card .hosp-line i{color:var(--sky); font-size:0.75rem; margin-top:4px;}
+
+/* TESTIMONIALS */
+.testi{padding:120px 0; overflow:hidden;}
+.testi-track-wrap{overflow:hidden; margin-top:50px; -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);}
+.testi-track{display:flex; gap:24px; width:max-content; animation:scrollTesti 48s linear infinite;}
+.testi-track:hover{animation-play-state:paused;}
+@keyframes scrollTesti{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+.testi-card{background:#fff; border:1px solid var(--gray-line); border-radius:20px; padding:28px; width:340px; flex-shrink:0; box-shadow:0 10px 28px -18px rgba(10,38,71,0.2);}
+.testi-stars{color:#F5A623; font-size:0.9rem; margin-bottom:12px;}
+.testi-text{font-size:0.93rem; color:var(--navy); margin-bottom:18px; min-height:96px;}
+.testi-flag{font-size:0.72rem; color:var(--blue); font-weight:700; text-transform:uppercase; letter-spacing:0.06em;}
+.testi-person{display:flex; align-items:center; gap:12px;}
+.testi-avatar{width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--sky)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-family:var(--font-d);}
+.testi-person strong{display:block; font-size:0.92rem;}
+.testi-person span{font-size:0.78rem; color:var(--gray);}
+
+/* CONTACT */
+.contact{padding:120px 0; background:linear-gradient(135deg,var(--navy),#123a68); color:#fff; position:relative; overflow:hidden;}
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;}
+.contact .sec-head h2, .contact .sec-head p{color:#fff;}
+.contact .sec-head p{color:#c9d9ea;}
+.contact-cards{display:flex; flex-direction:column; gap:18px;}
+.c-card{display:flex; align-items:center; gap:18px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); padding:20px 22px; border-radius:16px; transition:all .3s ease;}
+.c-card:hover{background:rgba(255,255,255,0.14); transform:translateX(6px);}
+.c-card .ic{font-size:1.35rem; color:var(--sky); width:26px; text-align:center;}
+.c-card strong{display:block; font-size:0.95rem;}
+.c-card span{font-size:0.85rem; color:#c9d9ea;}
+.contact-form{background:#fff; border-radius:22px; padding:38px; color:var(--navy); box-shadow:var(--shadow);}
+.contact-form h3{margin-bottom:22px; font-size:1.2rem;}
+.contact-form label{font-size:0.82rem; font-weight:600; display:block; margin-bottom:6px; color:var(--gray);}
+.contact-form input, .contact-form textarea{width:100%; padding:13px 16px; border:1.5px solid var(--gray-line); border-radius:10px; margin-bottom:18px; font-family:var(--font-b); font-size:0.95rem; transition:border-color .25s ease;}
+.contact-form input:focus, .contact-form textarea:focus{outline:none; border-color:var(--blue);}
+.contact-form button{width:100%; justify-content:center;}
+
+/* FOOTER */
+footer{background:var(--navy); color:#c9d9ea; padding:60px 0 30px;}
+.foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:50px; margin-bottom:40px;}
+.foot-logo{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
+.foot-logo img{height:38px; border-radius:10px; width:auto;}
+.foot-logo span{font-family:var(--font-d); font-weight:700; color:#fff; font-size:1.1rem;}
+footer h4{color:#fff; font-size:0.95rem; margin-bottom:16px;}
+footer ul li{margin-bottom:10px; font-size:0.9rem; display:flex; align-items:center; gap:8px;}
+footer ul li i{color:var(--sky); width:14px;}
+footer ul li a:hover{color:#fff;}
+.foot-bottom{border-top:1px solid rgba(255,255,255,0.12); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:0.82rem; color:#93a8c0;}
+
+/* whatsapp float */
+.wa-float{position:fixed; bottom:26px; right:26px; background:#25D366; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.7rem; color:#fff; box-shadow:0 12px 26px -6px rgba(0,0,0,0.35); z-index:900; animation:pulse 2.6s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.55);} 70%{box-shadow:0 0 0 16px rgba(37,211,102,0);} 100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}}
+
+@media (max-width:980px){
+  .hero-grid, .about-grid, .dest-grid, .contact-grid{grid-template-columns:1fr;}
+  .hero-visual{order:-1;}
+  .why-grid{grid-template-columns:repeat(2,1fr);}
+  .services-grid{grid-template-columns:repeat(2,1fr);}
+  .hosp-grid{grid-template-columns:repeat(2,1fr);}
+  .timeline-steps{grid-template-columns:repeat(2,1fr);}
+  .timeline-track{display:none;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:760px){
+  .nav-links{display:none;}
+  .nav-cta .btn-primary span.btn-label{display:none;}
+  .nav-cta .btn-primary{padding:10px 12px;}
+  .burger{display:flex;}
+  header.open .nav-links{display:flex; position:fixed; inset:0; top:0; background:var(--navy); flex-direction:column; justify-content:center; align-items:center; gap:30px; z-index:1050;}
+  header.open .nav-links a{color:#fff; font-size:1.3rem;}
+  .why-grid, .services-grid, .hosp-grid{grid-template-columns:1fr;}
+  .timeline-steps{grid-template-columns:1fr;}
+  .proof-list{grid-template-columns:1fr;}
+  .about-badge{left:14px; bottom:-20px; padding:16px 20px;}
+  .hero{padding-top:120px;}
+}
+
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="container nav">
+    <a href="#accueil" class="logo-wrap"><img src="logo.png" alt="AfriCareFinder"  class="logo1">AfriCareFinder</a>
+    <nav class="nav-links">
+      <a href="#apropos" data-i18n="nav_about">À propos</a>
+      <a href="#pourquoi" data-i18n="nav_why">Pourquoi nous</a>
+      <a href="#services" data-i18n="nav_services">Services</a>
+      <a href="#fonctionnement" data-i18n="nav_how">Fonctionnement</a>
+      <a href="#destinations" data-i18n="nav_destinations">Destinations</a>
+      <a href="#temoignages" data-i18n="nav_testimonials">Témoignages</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-comment-medical"></i> <span class="btn-label" data-i18n="nav_contact">Nous contacter</span></a>
+    </div>
+    <div class="burger" id="burger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="accueil">
+  <div class="container hero-grid">
+    <div data-reveal="left">
+      <div class="eyebrow"><i class="fa-solid fa-plane"></i> <span data-i18n="hero_eyebrow">Afrique → Inde · Assistance médicale</span></div>
+      <h2><span data-i18n="hero_h1_pre">Votre santé mérite le meilleur soin, </span><span data-i18n="hero_h1_span">où qu'il se trouve</span></h2>
+      <p class="lead" data-i18n="hero_lead">AfriCareFinder est le pont humain entre les patients africains en quête de soins spécialisés et les meilleurs hôpitaux d'Asie aujourd'hui en Inde. De la première évaluation jusqu'au retour au pays, nous marchons à vos côtés à chaque étape.</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/237682255064" target="_blank" class="btn btn-primary"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="hero_cta1">Démarrer mon dossier</span></a>
+        <a href="#services" class="btn btn-outline"><i class="fa-solid fa-arrow-down"></i> <span data-i18n="hero_cta2">Découvrir nos services</span></a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>20+</strong><span data-i18n="hero_stat1_label">Patients accompagnés</span></div>
+        <div><strong>🇮🇳 <span data-i18n="hero_stat2_value">Inde</span></strong><span data-i18n="hero_stat2_label">Notre destination actuelle</span></div>
+        <div><strong>100%</strong><span data-i18n="hero_stat3_label">Accompagnement personnalisé</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" data-reveal="scale">
+      <div class="frame"><img src="avion.jpg" alt="Vol vers l'Inde pour soins médicaux"></div>
+      <div class="floating-card card1"><span class="ic"><i class="fa-solid fa-notes-medical"></i></span> <span data-i18n="floating1">Suivi médical dédié</span></div>
+      <div class="floating-card card2"><span class="ic"><i class="fa-solid fa-plane-arrival"></i></span> <span data-i18n="floating2">Retour serein au pays</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- A PROPOS -->
+<section class="about" id="apropos">
+  <div class="container about-grid">
+    <div class="about-visual" data-reveal="left">
+      <div class="img-main" id="aboutSlider">
+        <img id="aboutImg" src="equipe.jpg" alt="Équipe médicale accompagnant un patient">
+        <img id="aboutImg2" src="africans.jpg" alt="Équipe médicale accompagnant un patient">
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+      <div class="about-badge"><strong>20+</strong><span data-i18n="about_badge_label">Personnes accompagnées en Inde</span></div>
+    </div>
+    <div class="about-text" data-reveal="right">
+      <div class="eyebrow"><i class="fa-solid fa-handshake"></i> <span data-i18n="about_eyebrow">À propos d'AfriCareFinder</span></div>
+      <h2 data-i18n="about_h2">Le lien humain entre l'Afrique et les meilleurs soins d'Asie</h2>
+      <p data-i18n="about_p1">Trop de patients africains ayant besoin de soins spécialisés se heurtent à la distance, à la langue et à la complexité administrative. AfriCareFinder existe pour combler ce fossé : nous orientons, organisons et accompagnons chaque patient vers des hôpitaux d'Asie capables de répondre à son besoin — en commençant, aujourd'hui, par l'Inde.</p>
+      <p data-i18n="about_p2">Ce n'est pas seulement un service de mise en relation. C'est un accompagnement de bout en bout : évaluation du dossier médical, choix de l'hôpital, organisation du voyage, présence sur place et suivi après le traitement.</p>
+      <div class="proof-list">
+        <div class="proof-item"><span class="ic"><i class="fa-solid fa-hospital"></i></span><div><strong data-i18n="proof1_title">Hôpitaux accrédités</strong><span data-i18n="proof1_desc">Réseau médical qualifié en Inde</span></div></div>
+        <div class="proof-item"><span class="ic"><i class="fa-solid fa-earth-africa"></i></span><div><strong data-i18n="proof2_title">Ancrage africain</strong><span data-i18n="proof2_desc">Une équipe qui comprend vos réalités</span></div></div>
+        <div class="proof-item"><span class="ic"><i class="fa-solid fa-comments"></i></span><div><strong data-i18n="proof3_title">Support bilingue</strong><span data-i18n="proof3_desc">Français & anglais, du début à la fin</span></div></div>
+        <div class="proof-item"><span class="ic"><i class="fa-solid fa-file-invoice"></i></span><div><strong data-i18n="proof4_title">Transparence totale</strong><span data-i18n="proof4_desc">Devis clairs, sans frais cachés</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI -->
+<section class="why" id="pourquoi">
+  <div class="container">
+    <div class="sec-head center" data-reveal>
+      <div class="eyebrow" style="justify-content:center;"><i class="fa-solid fa-circle-check"></i> <span data-i18n="why_eyebrow">Pourquoi choisir AfriCareFinder</span></div>
+      <h2 data-i18n="why_h2">Un accompagnement pensé pour vous rassurer</h2>
+      <p data-i18n="why_p">Chaque étape de votre parcours médical est prise en charge, pour que vous puissiez vous concentrer sur une seule chose : votre guérison.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card" data-reveal><span class="ic"><i class="fa-solid fa-handshake-angle"></i></span><h3 data-i18n="why1_title">Accompagnement humain</h3><p data-i18n="why1_desc">Un interlocuteur unique vous suit du premier contact jusqu'à votre retour à la maison.</p></div>
+      <div class="why-card" data-reveal><span class="ic"><i class="fa-solid fa-hospital"></i></span><h3 data-i18n="why2_title">Hôpitaux de confiance</h3><p data-i18n="why2_desc">Un réseau d'établissements indiens sélectionnés pour leur expertise et leur sérieux.</p></div>
+      <div class="why-card" data-reveal><span class="ic"><i class="fa-solid fa-language"></i></span><h3 data-i18n="why3_title">Support multilingue</h3><p data-i18n="why3_desc">Une communication fluide en français et en anglais, à chaque étape du processus.</p></div>
+      <div class="why-card" data-reveal><span class="ic"><i class="fa-solid fa-plane-departure"></i></span><h3 data-i18n="why4_title">Voyage organisé</h3><p data-i18n="why4_desc">Vols, visa médical, transferts et hébergement : tout est coordonné pour vous.</p></div>
+      <div class="why-card" data-reveal><span class="ic"><i class="fa-solid fa-sack-dollar"></i></span><h3 data-i18n="why5_title">Coûts transparents</h3><p data-i18n="why5_desc">Des devis clairs et détaillés, sans surprise ni frais cachés en cours de route.</p></div>
+      <div class="why-card" data-reveal><span class="ic"><i class="fa-solid fa-heart-circle-check"></i></span><h3 data-i18n="why6_title">Suivi post-traitement</h3><p data-i18n="why6_desc">Un accompagnement qui continue après l'opération, jusqu'à votre rétablissement complet.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow"><i class="fa-solid fa-stethoscope"></i> <span data-i18n="services_eyebrow">Nos services</span></div>
+      <h2 data-i18n="services_h2">Un accompagnement complet, de A à Z</h2>
+      <p data-i18n="services_p">De l'évaluation initiale au retour au pays, chaque service est conçu pour vous simplifier la vie.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" data-reveal><div class="num">01</div><div class="ic"><i class="fa-solid fa-clipboard-list"></i></div><h3 data-i18n="serv1_title">Évaluation médicale à distance</h3><p data-i18n="serv1_desc">Analyse de votre dossier par nos partenaires médicaux pour définir le meilleur parcours de soin.</p></div>
+      <div class="service-card" data-reveal><div class="num">02</div><div class="ic"><i class="fa-solid fa-hospital-user"></i></div><h3 data-i18n="serv2_title">Sélection de l'hôpital et du spécialiste</h3><p data-i18n="serv2_desc">Orientation vers l'établissement et le médecin les plus adaptés à votre situation.</p></div>
+      <div class="service-card" data-reveal><div class="num">03</div><div class="ic"><i class="fa-solid fa-plane-departure"></i></div><h3 data-i18n="serv3_title">Organisation du voyage</h3><p data-i18n="serv3_desc">Visa médical, billets d'avion et transferts, entièrement pris en charge par notre équipe.</p></div>
+      <div class="service-card" data-reveal><div class="num">04</div><div class="ic"><i class="fa-solid fa-comments"></i></div><h3 data-i18n="serv4_title">Accompagnement sur place</h3><p data-i18n="serv4_desc">Traduction, interprétariat et présence humaine à chaque rendez-vous médical en Inde.</p></div>
+      <div class="service-card" data-reveal><div class="num">05</div><div class="ic"><i class="fa-solid fa-bed"></i></div><h3 data-i18n="serv5_title">Hébergement & logistique</h3><p data-i18n="serv5_desc">Logement, transport local et assistance quotidienne pendant toute la durée du séjour.</p></div>
+      <div class="service-card" data-reveal><div class="num">06</div><div class="ic"><i class="fa-solid fa-heart-circle-check"></i></div><h3 data-i18n="serv6_title">Suivi post-traitement</h3><p data-i18n="serv6_desc">Un suivi rapproché après l'intervention, jusqu'au retour et au-delà, dans votre pays.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT CA FONCTIONNE -->
+<section class="how" id="fonctionnement">
+  <div class="container">
+    <div class="sec-head center" data-reveal>
+      <div class="eyebrow" style="justify-content:center; color:var(--sky);"><i class="fa-solid fa-compass"></i> <span data-i18n="how_eyebrow">Comment ça fonctionne</span></div>
+      <h2 data-i18n="how_h2">Cinq étapes vers votre traitement</h2>
+      <p data-i18n="how_p">Un parcours balisé, pensé pour vous éviter le stress de l'inconnu.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-track"><div class="fill" id="tlFill"></div></div>
+      <div class="timeline-steps">
+        <div class="tl-step" data-reveal><div class="tl-num">1</div><h4 data-i18n="tl1_title">Contact & dossier</h4><p data-i18n="tl1_desc">Vous nous contactez et partagez votre dossier médical.</p></div>
+        <div class="tl-step" data-reveal><div class="tl-num">2</div><h4 data-i18n="tl2_title">Évaluation</h4><p data-i18n="tl2_desc">Nos partenaires médicaux en Inde étudient votre cas.</p></div>
+        <div class="tl-step" data-reveal><div class="tl-num">3</div><h4 data-i18n="tl3_title">Devis & voyage</h4><p data-i18n="tl3_desc">Un devis clair, puis l'organisation complète du départ.</p></div>
+        <div class="tl-step" data-reveal><div class="tl-num">4</div><h4 data-i18n="tl4_title">Traitement en Inde</h4><p data-i18n="tl4_desc">Accueil, interprétariat et suivi durant votre prise en charge.</p></div>
+        <div class="tl-step" data-reveal><div class="tl-num">5</div><h4 data-i18n="tl5_title">Retour & suivi</h4><p data-i18n="tl5_desc">Accompagnement au retour et suivi de votre rétablissement.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section class="destinations" id="destinations">
+  <div class="container dest-grid">
+    <div data-reveal="left">
+      <div class="eyebrow"><i class="fa-solid fa-map-location-dot"></i> <span data-i18n="destinations_eyebrow">Destinations</span></div>
+      <h2 data-i18n="destinations_h2">Aujourd'hui l'Inde, demain toute l'Asie</h2>
+      <p style="color:var(--gray); margin:16px 0 20px;" data-i18n="destinations_p">Notre zone d'action actuelle est l'Inde, reconnue pour l'excellence de sa médecine spécialisée à des coûts maîtrisés. Nous élargirons progressivement notre réseau à d'autres pays d'Asie.</p>
+      <div class="dest-cities">
+        <span class="dest-city"><i class="fa-solid fa-hospital"></i> New Delhi</span>
+        <span class="dest-city"><i class="fa-solid fa-hospital"></i> Chennai</span>
+        <span class="dest-city"><i class="fa-solid fa-hospital"></i> Mumbai</span>
+        <span class="dest-city"><i class="fa-solid fa-hospital"></i> Bangalore</span>
+      </div>
+    </div>
+    <div class="dest-visual" data-reveal="right">
+      <div class="dest-photos">
+        <div class="dest-photo"><img src="delhi.jpg" alt="New Delhi, Inde"><span class="cap"><i class="fa-solid fa-location-dot"></i> New Delhi</span></div>
+        <div class="dest-photo"><img src="chennai.jpg" alt="Chennai, Inde"><span class="cap"><i class="fa-solid fa-location-dot"></i> Chennai</span></div>
+        <div class="dest-photo"><img src="mumbai.jpg" alt="Mumbai, Inde"><span class="cap"><i class="fa-solid fa-location-dot"></i> Mumbai</span></div>
+        <div class="dest-photo"><img src="bengalore.jpg" alt="Bangalore, Inde"><span class="cap"><i class="fa-solid fa-location-dot"></i> Bangalore</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOPITAUX PARTENAIRES -->
+<section class="hospitals" id="hopitaux">
+  <div class="container">
+    <div class="sec-head center" data-reveal>
+      <div class="eyebrow" style="justify-content:center;"><i class="fa-solid fa-hospital"></i> <span data-i18n="hospitals_eyebrow">Hôpitaux partenaires</span></div>
+      <h2 data-i18n="hospitals_h2">Un réseau médical de confiance en Inde</h2>
+      <p data-i18n="hospitals_p">Nous orientons nos patients vers des établissements reconnus, selon la spécialité et le besoin de chacun.</p>
+    </div>
+    <div class="hosp-banner" data-reveal>
+      <img src="chirugie.jpg" alt="Chirurgien dans un hôpital partenaire en Inde">
+      <div class="cap"><i class="fa-solid fa-user-doctor"></i> <span data-i18n="hosp_banner_caption">Des chirurgiens et spécialistes expérimentés vous prennent en charge en Inde</span></div>
+    </div>
+    <div class="hosp-grid" id="hospGrid"></div>
+  </div>
+</section>
+
+<!-- TEMOIGNAGES -->
+<section class="testi" id="temoignages">
+  <div class="container">
+    <div class="sec-head center" data-reveal>
+      <div class="eyebrow" style="justify-content:center;"><i class="fa-solid fa-quote-left"></i> <span data-i18n="testimonials_eyebrow">Témoignages</span></div>
+      <h2 data-i18n="testimonials_h2">Ils nous ont fait confiance</h2>
+      <p data-i18n="testimonials_p">Des patients venus de toute l'Afrique partagent leur expérience avec AfriCareFinder.</p>
+    </div>
+  </div>
+  <div class="testi-track-wrap">
+    <div class="testi-track" id="testiTrack">
+      <!-- duplicated in JS for seamless loop -->
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container contact-grid">
+    <div data-reveal="left">
+      <div class="sec-head">
+        <div class="eyebrow" style="color:var(--sky);"><i class="fa-solid fa-comments"></i> <span data-i18n="contact_eyebrow">Contact</span></div>
+        <h2 data-i18n="contact_h2">Parlons de votre projet de soins</h2>
+        <p data-i18n="contact_p">Notre équipe vous répond rapidement pour évaluer votre dossier et vous orienter.</p>
+      </div>
+      <div class="contact-cards">
+        <a class="c-card" href="https://wa.me/237682255064" target="_blank"><span class="ic"><i class="fa-brands fa-whatsapp"></i></span><div><strong>WhatsApp</strong><span>+237 682 255 064</span></div></a>
+        <a class="c-card" href="mailto:lucio18@gmail.com"><span class="ic"><i class="fa-solid fa-envelope"></i></span><div><strong data-i18n="email_label">Email</strong><span>lucio18@gmail.com</span></div></a>
+        <div class="c-card"><span class="ic"><i class="fa-regular fa-clock"></i></span><div><strong data-i18n="avail_label">Disponibilité</strong><span data-i18n="avail_value">Lundi – Samedi, 8h – 20h</span></div></div>
+      </div>
+    </div>
+    <div class="contact-form" data-reveal="right">
+      <h3 data-i18n="form_h3">Envoyez-nous un message</h3>
+      <form onsubmit="event.preventDefault(); window.location.href='mailto:lucio18@gmail.com?subject=Demande d\'information AfriCareFinder&body=' + encodeURIComponent('Nom: ' + this.nom.value + '\nMessage: ' + this.message.value);">
+        <label data-i18n="form_label_name">Nom complet</label>
+        <input type="text" name="nom" required data-i18n-ph="form_placeholder_name" placeholder="Votre nom">
+        <label data-i18n="form_label_contact">Email ou téléphone</label>
+        <input type="text" name="contact" required data-i18n-ph="form_placeholder_contact" placeholder="Votre email ou numéro">
+        <label data-i18n="form_label_message">Votre message</label>
+        <textarea name="message" rows="4" required data-i18n-ph="form_placeholder_message" placeholder="Décrivez votre besoin médical"></textarea>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> <span data-i18n="form_submit">Envoyer ma demande</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo"><img src="logo.png" alt="AfriCareFinder"><span>AfriCareFinder</span></div>
+        <p style="font-size:0.9rem; max-width:340px;" data-i18n="footer_tagline">Le pont humain entre les patients africains et les meilleurs soins spécialisés d'Asie, en commençant par l'Inde.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer_nav_heading">Navigation</h4>
+        <ul>
+          <li><a href="#apropos" data-i18n="nav_about">À propos</a></li>
+          <li><a href="#services" data-i18n="footer_link_services">Nos services</a></li>
+          <li><a href="#fonctionnement" data-i18n="footer_link_how">Comment ça fonctionne</a></li>
+          <li><a href="#temoignages" data-i18n="nav_testimonials">Témoignages</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="contact_eyebrow">Contact</h4>
+        <ul>
+          <li><i class="fa-solid fa-phone"></i> +237 682 255 064</li>
+          <li><i class="fa-solid fa-envelope"></i> lucio18@gmail.com</li>
+          <li><i class="fa-solid fa-location-dot"></i> <span data-i18n="footer_dest_note">🇮🇳 Inde — notre destination actuelle</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© AfriCareFinder. <span data-i18n="footer_rights">Tous droits réservés.</span></span>
+      <span data-i18n="footer_bottom_tagline">Conçu pour rapprocher l'Afrique des soins qu'elle mérite.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/237682255064" target="_blank" aria-label="Contacter sur WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+<script>
+// ================= Header scroll state =================
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Burger menu
+const burger = document.getElementById('burger');
+burger.addEventListener('click', () => header.classList.toggle('open'));
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => header.classList.remove('open')));
+
+// Scroll reveal both directions
+const revealEls = document.querySelectorAll('[data-reveal]');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    entry.target.classList.toggle('in-view', entry.isIntersecting);
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => io.observe(el));
+
+// Timeline fill animation
+const tlSection = document.getElementById('fonctionnement');
+const tlFill = document.getElementById('tlFill');
+const tlObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    tlFill.style.width = entry.isIntersecting ? '100%' : '0%';
+  });
+}, { threshold: 0.3 });
+if (tlSection) tlObserver.observe(tlSection);
+
+// ================= À propos - image slider (max 5 images) =================
+// Ajoutez ou retirez des fichiers ici (5 maximum). Placez les images
+// dans le même dossier que index.html et mettez à jour les noms ci-dessous.
+const aboutImages = ['equipe.jpg', 'africans.jpg', 'embassy.jpg'];
+const aboutImg = document.getElementById('aboutImg');
+const dotsWrap = document.getElementById('sliderDots');
+let aboutIndex = 0;
+
+if (aboutImages.length > 0) {
+  aboutImg.src = aboutImages[0];
+}
+if (aboutImages.length > 1) {
+  aboutImages.forEach((_, i) => {
+    const dot = document.createElement('span');
+    if (i === 0) dot.classList.add('active');
+    dotsWrap.appendChild(dot);
+  });
+  setInterval(() => {
+    aboutIndex = (aboutIndex + 1) % aboutImages.length;
+    aboutImg.style.opacity = 0;
+    setTimeout(() => {
+      aboutImg.src = aboutImages[aboutIndex];
+      aboutImg.style.opacity = 1;
+      [...dotsWrap.children].forEach((d, i) => d.classList.toggle('active', i === aboutIndex));
+    }, 400);
+  }, 3000);
+}
+
+// ================= Hospitals grid (bilingual data) =================
+const hospitalsData = [
+  { icon:'fa-heart-pulse',
+    fr:{title:'Cardiologie', conditions:'Maladies coronariennes, valvulopathies, insuffisance cardiaque', treatments:'Pontage, angioplastie, remplacement valvulaire'},
+    en:{title:'Cardiology', conditions:'Coronary disease, valve disorders, heart failure', treatments:'Bypass surgery, angioplasty, valve replacement'} },
+  { icon:'fa-bone',
+    fr:{title:'Orthopédie', conditions:'Arthrose, fractures complexes, usure articulaire', treatments:'Prothèse de hanche/genou, chirurgie du rachis'},
+    en:{title:'Orthopedics', conditions:'Osteoarthritis, complex fractures, joint wear', treatments:'Hip/knee replacement, spine surgery'} },
+  { icon:'fa-ribbon',
+    fr:{title:'Oncologie', conditions:'Cancers du sein, digestifs, hématologiques', treatments:'Chirurgie, chimiothérapie, radiothérapie'},
+    en:{title:'Oncology', conditions:'Breast, digestive and blood cancers', treatments:'Surgery, chemotherapy, radiotherapy'} },
+  { icon:'fa-lungs',
+    fr:{title:'Transplantation', conditions:'Insuffisance rénale ou hépatique terminale', treatments:'Greffe de rein, de foie, suivi immunosuppresseur'},
+    en:{title:'Transplantation', conditions:'End-stage kidney or liver failure', treatments:'Kidney/liver transplant, immunosuppressive follow-up'} },
+  { icon:'fa-brain',
+    fr:{title:'Neurologie & Neurochirurgie', conditions:'AVC, tumeurs cérébrales, hernies discales', treatments:'Neurochirurgie, radiochirurgie, rééducation'},
+    en:{title:'Neurology & Neurosurgery', conditions:'Stroke, brain tumors, disc herniation', treatments:'Neurosurgery, radiosurgery, rehabilitation'} },
+  { icon:'fa-droplet',
+    fr:{title:'Néphrologie & Urologie', conditions:'Calculs rénaux, insuffisance rénale, troubles urinaires', treatments:'Dialyse, lithotritie, chirurgie urologique'},
+    en:{title:'Nephrology & Urology', conditions:'Kidney stones, renal failure, urinary disorders', treatments:'Dialysis, lithotripsy, urologic surgery'} },
+  { icon:'fa-capsules',
+    fr:{title:'Gastro-entérologie', conditions:'Ulcères, calculs biliaires, maladies du foie', treatments:'Endoscopie, chirurgie digestive, traitement médical'},
+    en:{title:'Gastroenterology', conditions:'Ulcers, gallstones, liver disease', treatments:'Endoscopy, digestive surgery, medical treatment'} },
+  { icon:'fa-person-pregnant',
+    fr:{title:'Gynécologie & Obstétrique', conditions:'Fibromes, infertilité, suivi de grossesse à risque', treatments:'Chirurgie gynécologique, PMA, suivi spécialisé'},
+    en:{title:'Gynecology & Obstetrics', conditions:'Fibroids, infertility, high-risk pregnancy care', treatments:'Gynecologic surgery, fertility treatment, specialist monitoring'} }
+];
+
+const hospGrid = document.getElementById('hospGrid');
+function renderHospitals(lang){
+  hospGrid.innerHTML = hospitalsData.map(h => {
+    const d = h[lang];
+    const condLabel = lang === 'fr' ? 'Pathologies' : 'Conditions';
+    const treatLabel = lang === 'fr' ? 'Traitements' : 'Treatments';
+    return `<div class="hosp-card" data-reveal>
+      <div class="ic"><i class="fa-solid ${h.icon}"></i></div>
+      <h4>${d.title}</h4>
+      <div class="hosp-line"><i class="fa-solid fa-circle-dot"></i><span><b>${condLabel}:</b> ${d.conditions}</span></div>
+      <div class="hosp-line"><i class="fa-solid fa-circle-dot"></i><span><b>${treatLabel}:</b> ${d.treatments}</span></div>
+    </div>`;
+  }).join('');
+  hospGrid.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+}
+
+// ================= Testimonials data (bilingual, fictional names) =================
+const testimonials = [
+  {name:"Aïcha Ndiaye", loc:"Dakar, Sénégal", lang:"FR", text:"AfriCareFinder a organisé tout mon voyage à Chennai en quelques semaines. Je me suis sentie accompagnée du début à la fin."},
+  {name:"Jean-Marc Owona", loc:"Douala, Cameroun", lang:"FR", text:"L'équipe a traduit chaque échange avec les médecins. Sans eux, je n'aurais jamais osé partir seul en Inde."},
+  {name:"Grace Mensah", loc:"Accra, Ghana", lang:"EN", text:"From the first call to my flight back home, AfriCareFinder made a scary process feel completely manageable."},
+  {name:"Samuel Otieno", loc:"Nairobi, Kenya", lang:"EN", text:"The hospital they chose for my surgery was excellent, and the follow-up calls after I returned meant a lot."},
+  {name:"Fatoumata Camara", loc:"Conakry, Guinée", lang:"FR", text:"J'avais peur de l'inconnu, mais leur accompagnement humain a changé toute mon expérience du voyage médical."},
+  {name:"David Chibuike", loc:"Lagos, Nigeria", lang:"EN", text:"Transparent pricing, real answers, and a team that actually picks up the phone. I recommend them without hesitation."},
+  {name:"Aminata Traoré", loc:"Bamako, Mali", lang:"FR", text:"Grâce à AfriCareFinder, mon père a pu se faire opérer à New Delhi avec un suivi rassurant jusqu'à son retour."},
+  {name:"Grace Mwangi", loc:"Dar es Salaam, Tanzanie", lang:"EN", text:"They coordinated everything — visa, hospital, translation — so my family could focus only on my recovery."},
+  {name:"Patrick Nkurunziza", loc:"Libreville, Gabon", lang:"FR", text:"Un service sérieux et humain. J'ai enfin trouvé une équipe qui comprend les réalités des patients africains."},
+  {name:"Linda Okafor", loc:"Kinshasa, RDC", lang:"EN", text:"AfriCareFinder gave me confidence at every step. Twenty families and counting — I'm proud to be one of them."}
+];
+
+const track = document.getElementById('testiTrack');
+function initials(n){ return n.split(' ').map(p=>p[0]).slice(0,2).join(''); }
+function renderCard(t){
+  return `<div class="testi-card">
+    <div class="testi-stars">★★★★★</div>
+    <div class="testi-flag">${t.lang === 'FR' ? '🇫🇷 Français' : '🇬🇧 English'}</div>
+    <p class="testi-text">"${t.text}"</p>
+    <div class="testi-person">
+      <div class="testi-avatar">${initials(t.name)}</div>
+      <div><strong>${t.name}</strong><span>${t.loc}</span></div>
+    </div>
+  </div>`;
+}
+const cardsHtml = testimonials.map(renderCard).join('');
+track.innerHTML = cardsHtml + cardsHtml; // duplicate for seamless scroll loop
+
+// Smooth anchor scroll offset for fixed header
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e){
+    const targetId = this.getAttribute('href');
+    if(targetId.length > 1){
+      const target = document.querySelector(targetId);
+      if(target){
+        e.preventDefault();
+        const offset = target.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({top: offset, behavior:'smooth'});
+      }
+    }
+  });
+});
+
+// ================= FR / EN language switch =================
+const translations = {
+  nav_about:{fr:"À propos", en:"About"},
+  nav_why:{fr:"Pourquoi nous", en:"Why us"},
+  nav_services:{fr:"Services", en:"Services"},
+  nav_how:{fr:"Fonctionnement", en:"How it works"},
+  nav_destinations:{fr:"Destinations", en:"Destinations"},
+  nav_testimonials:{fr:"Témoignages", en:"Testimonials"},
+  nav_contact:{fr:"Nous contacter", en:"Contact us"},
+
+  hero_eyebrow:{fr:"Afrique → Inde · Assistance médicale", en:"Africa → India · Medical assistance"},
+  hero_h1_pre:{fr:"Votre santé mérite le meilleur soin, ", en:"Your health deserves the best care, "},
+  hero_h1_span:{fr:"où qu'il se trouve", en:"wherever it is"},
+  hero_lead:{fr:"AfriCareFinder est le pont humain entre les patients africains en quête de soins spécialisés et les meilleurs hôpitaux d'Asie aujourd'hui en Inde. De la première évaluation jusqu'au retour au pays, nous marchons à vos côtés à chaque étape.",
+             en:"AfriCareFinder is the human bridge between African patients seeking specialized care and the best hospitals in Asia, starting today with India. From the first assessment to your return home, we walk alongside you at every step."},
+  hero_cta1:{fr:"Démarrer mon dossier", en:"Start my case"},
+  hero_cta2:{fr:"Découvrir nos services", en:"Discover our services"},
+  hero_stat1_label:{fr:"Patients accompagnés", en:"Patients supported"},
+  hero_stat2_value:{fr:"Inde", en:"India"},
+  hero_stat2_label:{fr:"Notre destination actuelle", en:"Our current destination"},
+  hero_stat3_label:{fr:"Accompagnement personnalisé", en:"Personalized support"},
+  floating1:{fr:"Suivi médical dédié", en:"Dedicated medical follow-up"},
+  floating2:{fr:"Retour serein au pays", en:"Peaceful return home"},
+
+  about_eyebrow:{fr:"À propos d'AfriCareFinder", en:"About AfriCareFinder"},
+  about_h2:{fr:"Le lien humain entre l'Afrique et les meilleurs soins d'Asie", en:"The human link between Africa and the best care in Asia"},
+  about_p1:{fr:"Trop de patients africains ayant besoin de soins spécialisés se heurtent à la distance, à la langue et à la complexité administrative. AfriCareFinder existe pour combler ce fossé : nous orientons, organisons et accompagnons chaque patient vers des hôpitaux d'Asie capables de répondre à son besoin — en commençant, aujourd'hui, par l'Inde.",
+            en:"Too many African patients who need specialized care are held back by distance, language and administrative complexity. AfriCareFinder exists to close that gap: we guide, organize and support every patient toward hospitals in Asia that can meet their needs — starting today with India."},
+  about_p2:{fr:"Ce n'est pas seulement un service de mise en relation. C'est un accompagnement de bout en bout : évaluation du dossier médical, choix de l'hôpital, organisation du voyage, présence sur place et suivi après le traitement.",
+            en:"This isn't just a referral service. It's true end-to-end support: medical file assessment, hospital selection, travel organization, on-site presence and follow-up after treatment."},
+  about_badge_label:{fr:"Personnes accompagnées en Inde", en:"People supported in India"},
+  proof1_title:{fr:"Hôpitaux accrédités", en:"Accredited hospitals"},
+  proof1_desc:{fr:"Réseau médical qualifié en Inde", en:"Qualified medical network in India"},
+  proof2_title:{fr:"Ancrage africain", en:"African roots"},
+  proof2_desc:{fr:"Une équipe qui comprend vos réalités", en:"A team that understands your reality"},
+  proof3_title:{fr:"Support bilingue", en:"Bilingual support"},
+  proof3_desc:{fr:"Français & anglais, du début à la fin", en:"French & English, from start to finish"},
+  proof4_title:{fr:"Transparence totale", en:"Full transparency"},
+  proof4_desc:{fr:"Devis clairs, sans frais cachés", en:"Clear quotes, no hidden fees"},
+
+  why_eyebrow:{fr:"Pourquoi choisir AfriCareFinder", en:"Why choose AfriCareFinder"},
+  why_h2:{fr:"Un accompagnement pensé pour vous rassurer", en:"Support designed to reassure you"},
+  why_p:{fr:"Chaque étape de votre parcours médical est prise en charge, pour que vous puissiez vous concentrer sur une seule chose : votre guérison.",
+         en:"Every step of your medical journey is taken care of, so you can focus on just one thing: getting better."},
+  why1_title:{fr:"Accompagnement humain", en:"Human support"},
+  why1_desc:{fr:"Un interlocuteur unique vous suit du premier contact jusqu'à votre retour à la maison.", en:"A single point of contact follows you from day one until you're back home."},
+  why2_title:{fr:"Hôpitaux de confiance", en:"Trusted hospitals"},
+  why2_desc:{fr:"Un réseau d'établissements indiens sélectionnés pour leur expertise et leur sérieux.", en:"A network of Indian institutions selected for their expertise and reliability."},
+  why3_title:{fr:"Support multilingue", en:"Multilingual support"},
+  why3_desc:{fr:"Une communication fluide en français et en anglais, à chaque étape du processus.", en:"Smooth communication in French and English at every stage of the process."},
+  why4_title:{fr:"Voyage organisé", en:"Organized travel"},
+  why4_desc:{fr:"Vols, visa médical, transferts et hébergement : tout est coordonné pour vous.", en:"Flights, medical visa, transfers and accommodation — all coordinated for you."},
+  why5_title:{fr:"Coûts transparents", en:"Transparent costs"},
+  why5_desc:{fr:"Des devis clairs et détaillés, sans surprise ni frais cachés en cours de route.", en:"Clear, detailed quotes — no surprises or hidden fees along the way."},
+  why6_title:{fr:"Suivi post-traitement", en:"Post-treatment follow-up"},
+  why6_desc:{fr:"Un accompagnement qui continue après l'opération, jusqu'à votre rétablissement complet.", en:"Support that continues after your procedure, until you've fully recovered."},
+
+  services_eyebrow:{fr:"Nos services", en:"Our services"},
+  services_h2:{fr:"Un accompagnement complet, de A à Z", en:"Complete support, from A to Z"},
+  services_p:{fr:"De l'évaluation initiale au retour au pays, chaque service est conçu pour vous simplifier la vie.", en:"From the initial assessment to your return home, every service is designed to make your life easier."},
+  serv1_title:{fr:"Évaluation médicale à distance", en:"Remote medical assessment"},
+  serv1_desc:{fr:"Analyse de votre dossier par nos partenaires médicaux pour définir le meilleur parcours de soin.", en:"Your file is reviewed by our medical partners to define the best care pathway."},
+  serv2_title:{fr:"Sélection de l'hôpital et du spécialiste", en:"Hospital and specialist selection"},
+  serv2_desc:{fr:"Orientation vers l'établissement et le médecin les plus adaptés à votre situation.", en:"We match you with the hospital and doctor best suited to your situation."},
+  serv3_title:{fr:"Organisation du voyage", en:"Travel organization"},
+  serv3_desc:{fr:"Visa médical, billets d'avion et transferts, entièrement pris en charge par notre équipe.", en:"Medical visa, flights and transfers, fully handled by our team."},
+  serv4_title:{fr:"Accompagnement sur place", en:"On-site support"},
+  serv4_desc:{fr:"Traduction, interprétariat et présence humaine à chaque rendez-vous médical en Inde.", en:"Translation, interpreting and a human presence at every medical appointment in India."},
+  serv5_title:{fr:"Hébergement & logistique", en:"Accommodation & logistics"},
+  serv5_desc:{fr:"Logement, transport local et assistance quotidienne pendant toute la durée du séjour.", en:"Lodging, local transport and daily assistance throughout your stay."},
+  serv6_title:{fr:"Suivi post-traitement", en:"Post-treatment follow-up"},
+  serv6_desc:{fr:"Un suivi rapproché après l'intervention, jusqu'au retour et au-delà, dans votre pays.", en:"Close follow-up after your procedure, through your return and beyond, back home."},
+
+  how_eyebrow:{fr:"Comment ça fonctionne", en:"How it works"},
+  how_h2:{fr:"Cinq étapes vers votre traitement", en:"Five steps to your treatment"},
+  how_p:{fr:"Un parcours balisé, pensé pour vous éviter le stress de l'inconnu.", en:"A clearly mapped path, designed to remove the stress of the unknown."},
+  tl1_title:{fr:"Contact & dossier", en:"Contact & file"},
+  tl1_desc:{fr:"Vous nous contactez et partagez votre dossier médical.", en:"You contact us and share your medical file."},
+  tl2_title:{fr:"Évaluation", en:"Assessment"},
+  tl2_desc:{fr:"Nos partenaires médicaux en Inde étudient votre cas.", en:"Our medical partners in India review your case."},
+  tl3_title:{fr:"Devis & voyage", en:"Quote & travel"},
+  tl3_desc:{fr:"Un devis clair, puis l'organisation complète du départ.", en:"A clear quote, then full organization of your trip."},
+  tl4_title:{fr:"Traitement en Inde", en:"Treatment in India"},
+  tl4_desc:{fr:"Accueil, interprétariat et suivi durant votre prise en charge.", en:"Welcome, interpreting and follow-up throughout your care."},
+  tl5_title:{fr:"Retour & suivi", en:"Return & follow-up"},
+  tl5_desc:{fr:"Accompagnement au retour et suivi de votre rétablissement.", en:"Support on your return and monitoring of your recovery."},
+
+  destinations_eyebrow:{fr:"Destinations", en:"Destinations"},
+  destinations_h2:{fr:"Aujourd'hui l'Inde, demain toute l'Asie", en:"India today, all of Asia tomorrow"},
+  destinations_p:{fr:"Notre zone d'action actuelle est l'Inde, reconnue pour l'excellence de sa médecine spécialisée à des coûts maîtrisés. Nous élargirons progressivement notre réseau à d'autres pays d'Asie.",
+                  en:"Our current area of operation is India, recognized for the excellence of its specialized medicine at controlled costs. We will progressively expand our network to other countries in Asia."},
+
+  hospitals_eyebrow:{fr:"Hôpitaux partenaires", en:"Partner hospitals"},
+  hospitals_h2:{fr:"Un réseau médical de confiance en Inde", en:"A trusted medical network in India"},
+  hospitals_p:{fr:"Nous orientons nos patients vers des établissements reconnus, selon la spécialité et le besoin de chacun.", en:"We guide our patients toward recognized institutions, based on each person's specialty and need."},
+  hosp_banner_caption:{fr:"Des chirurgiens et spécialistes expérimentés vous prennent en charge en Inde", en:"Experienced surgeons and specialists take care of you in India"},
+
+  testimonials_eyebrow:{fr:"Témoignages", en:"Testimonials"},
+  testimonials_h2:{fr:"Ils nous ont fait confiance", en:"They trusted us"},
+  testimonials_p:{fr:"Des patients venus de toute l'Afrique partagent leur expérience avec AfriCareFinder.", en:"Patients from across Africa share their experience with AfriCareFinder."},
+
+  contact_eyebrow:{fr:"Contact", en:"Contact"},
+  contact_h2:{fr:"Parlons de votre projet de soins", en:"Let's talk about your care plan"},
+  contact_p:{fr:"Notre équipe vous répond rapidement pour évaluer votre dossier et vous orienter.", en:"Our team responds quickly to assess your file and guide you."},
+  email_label:{fr:"Email", en:"Email"},
+  avail_label:{fr:"Disponibilité", en:"Availability"},
+  avail_value:{fr:"Lundi – Samedi, 8h – 20h", en:"Monday – Saturday, 8am – 8pm"},
+  form_h3:{fr:"Envoyez-nous un message", en:"Send us a message"},
+  form_label_name:{fr:"Nom complet", en:"Full name"},
+  form_placeholder_name:{fr:"Votre nom", en:"Your name"},
+  form_label_contact:{fr:"Email ou téléphone", en:"Email or phone"},
+  form_placeholder_contact:{fr:"Votre email ou numéro", en:"Your email or number"},
+  form_label_message:{fr:"Votre message", en:"Your message"},
+  form_placeholder_message:{fr:"Décrivez votre besoin médical", en:"Describe your medical need"},
+  form_submit:{fr:"Envoyer ma demande", en:"Send my request"},
+
+  footer_tagline:{fr:"Le pont humain entre les patients africains et les meilleurs soins spécialisés d'Asie, en commençant par l'Inde.", en:"The human bridge between African patients and the best specialized care in Asia, starting with India."},
+  footer_nav_heading:{fr:"Navigation", en:"Navigation"},
+  footer_link_services:{fr:"Nos services", en:"Our services"},
+  footer_link_how:{fr:"Comment ça fonctionne", en:"How it works"},
+  footer_dest_note:{fr:"🇮🇳 Inde — notre destination actuelle", en:"🇮🇳 India — our current destination"},
+  footer_rights:{fr:"Tous droits réservés.", en:"All rights reserved."},
+  footer_bottom_tagline:{fr:"Conçu pour rapprocher l'Afrique des soins qu'elle mérite.", en:"Designed to bring Africa closer to the care it deserves."}
+};
+
+function applyLanguage(lang){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[key] && translations[key][lang] !== undefined){
+      el.textContent = translations[key][lang];
+    }
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (translations[key] && translations[key][lang] !== undefined){
+      el.setAttribute('placeholder', translations[key][lang]);
+    }
+  });
+  document.querySelectorAll('#langSwitch button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  renderHospitals(lang);
+}
+
+document.querySelectorAll('#langSwitch button').forEach(btn => {
+  btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+});
+
+// initial render (French by default)
+renderHospitals('fr');
+</script>
+</body>
+</html>
